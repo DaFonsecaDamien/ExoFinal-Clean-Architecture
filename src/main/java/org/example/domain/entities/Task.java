@@ -5,6 +5,7 @@ package org.example.domain.entities;
 import org.example.domain.enums.TaskState;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.UUID;
 
 public class Task {
@@ -84,11 +85,14 @@ public class Task {
 
     @Override
     public String toString() {
-        return String.format("Task: %s,\n State: %s,\n Created: %s,\n Due: %s,\n Closed: %s\n",
-                description,
-                state,
-                creationDate.toString(),
-                dueDate == null ? "N/A" : dueDate.toString(),
-                closeDate == null ? "N/A" : closeDate.toString());
+        return "Task{" +
+                "uuid=" + uuid + "\n"+
+                "creationDate=" + creationDate +"\n"+
+                "dueDate=" + dueDate +"\n"+
+                "closeDate=" + closeDate +"\n"+
+                "description='" + description + '\'' +"\n"+
+                "state=" + state +"\n"+
+                "subTasks=" + Arrays.toString(subTasks) +"\n"+
+                '}';
     }
 }
