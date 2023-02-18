@@ -1,15 +1,15 @@
 [
   {
     "UUID": "d2d67f1c-9c7f-4f39-aec7-ae88d8c1eb3f",
-    "Created": "2022-02-15T22:14:30.486798+01:00",
-    "DueDate": "2022-02-16T14:14:30.535929+01:00",
+    "Created": "2022-02-15T22:14:30.486798",
+    "DueDate": "2022-02-16T14:14:30.535929",
     "CloseDate": null,
     "Description": "init a project to create an app for my tasks",
     "State": 0,
     "SubTasks": [
       {
         "UUID": "24f48fb8-1b3a-488c-9442-738d6c8f6a84",
-        "Created": "2022-02-15T22:14:30.535975+01:00",
+        "Created": "2022-02-15T22:14:30.535975",
         "DueDate": null,
         "CloseDate": null,
         "Description": "init repo for the project",
@@ -18,7 +18,7 @@
       },
       {
         "UUID": "d975f8e5-96c5-4166-aa5e-f9309f3072e6",
-        "Created": "2022-02-15T22:14:30.536022+01:00",
+        "Created": "2022-02-15T22:14:30.536022",
         "DueDate": null,
         "CloseDate": null,
         "Description": "create solution and project",
@@ -27,7 +27,7 @@
       },
       {
         "UUID": "c47d1e6b-8726-42ab-9e2f-84edc46a7a67",
-        "Created": "2022-02-15T22:14:30.536022+01:00",
+        "Created": "2022-02-15T22:14:30.536022",
         "DueDate": null,
         "CloseDate": null,
         "Description": "create a small poc to test formats",
@@ -38,8 +38,8 @@
   },
   {
     "UUID": "62032721-98c6-48f6-bc8d-9e22e0c24aa7",
-    "Created": "2022-02-13T22:14:30.536023+01:00",
-    "DueDate": "2022-02-16T21:14:30.536024+01:00",
+    "Created": "2022-02-13T22:14:30.536023",
+    "DueDate": "2022-02-16T21:14:30.536024",
     "CloseDate": null,
     "Description": "make a design of my needs to manage my tasks",
     "State": 2,
@@ -47,8 +47,8 @@
   },
   {
     "UUID": "f16b57a1-cbf6-4d63-9c6f-9e9f2e8d2da5",
-    "Created": "2022-02-16T22:14:30.536024+01:00",
-    "DueDate": "2022-03-16T22:14:30.536025+01:00",
+    "Created": "2022-02-16T22:14:30.536024",
+    "DueDate": "2022-03-16T22:14:30.536025",
     "CloseDate": null,
     "Description": "get first feedback on my app with peers",
     "State": 0,
@@ -56,11 +56,11 @@
   },
   {
     "UUID": "cb16c2f2-7c31-4e01-b7eb-840b8cc52d1e",
-    "Created": "2022-01-16T22:14:30.536143+01:00",
-    "DueDate": "2022-02-01T22:14:30.536144+01:00",
-    "CloseDate": "2022-02-11T22:14:30.536144+01:00",
+    "Created": "2022-01-16T22:14:30.536143",
+    "DueDate": "2022-02-01T22:14:30.536144",
+    "CloseDate": "2022-02-11T22:14:30.536144",
     "Description": "brainstorm on what project to work on",
-    "State": 5,
+    "State": 4,
     "SubTasks": null
   }
 ]

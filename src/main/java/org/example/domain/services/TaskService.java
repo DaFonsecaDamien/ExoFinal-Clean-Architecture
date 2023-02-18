@@ -1,28 +1,28 @@
 package org.example.domain.services;
 
 
-import org.example.domain.entities.TaskEntity;
+import org.example.domain.entities.Task;
 import org.example.domain.enums.TaskState;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 public class TaskService {
-    private final List<TaskEntity> tasks = new ArrayList<>();
+    private final List<Task> tasks = new ArrayList<>();
 
-    public List<TaskEntity> getTasks() {
+    public List<Task> getTasks() {
         return tasks;
     }
 
-    public TaskEntity addTask(UUID uuid, Date created, Date dueDate, Date closeDate, String description, TaskEntity[] subTasks) {
-        TaskEntity task = new TaskEntity(uuid, created, dueDate, closeDate, description, TaskState.TODO, subTasks);
+    public Task addTask(UUID uuid, LocalDateTime created, LocalDateTime dueDate, LocalDateTime closeDate, String description, Task[] subTasks) {
+        Task task = new Task(uuid, created, dueDate, closeDate, description, TaskState.TODO, subTasks);
         tasks.add(task);
         return task;
     }
 
-    public TaskEntity updateTask(TaskEntity task, Date created, Date dueDate, Date closeDate, TaskState state, TaskEntity[] subTasks) {
+    public Task updateTask(Task task, LocalDateTime created, LocalDateTime dueDate, LocalDateTime closeDate, TaskState state, Task[] subTasks) {
         task.setCreationDate(created);
         task.setDueDate(dueDate);
         task.setCloseDate(closeDate);
@@ -31,16 +31,16 @@ public class TaskService {
         return task;
     }
 
-    public TaskEntity updateTaskStatus(TaskEntity task, TaskState state) {
+    public Task updateTaskStatus(Task task, TaskState state) {
         task.setState(state);
         return task;
     }
 
-    public void deleteTask(TaskEntity task) {
+    public void deleteTask(Task task) {
         tasks.remove(task);
     }
 
-    public List<TaskEntity> orderByCreationDate() {
+    public List<Task> orderByCreationDate() {
         tasks.sort((o1, o2) -> o2.getCreationDate().compareTo(o1.getCreationDate()));
         return tasks;
     }

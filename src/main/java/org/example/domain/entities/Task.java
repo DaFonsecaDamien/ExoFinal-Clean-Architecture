@@ -4,19 +4,19 @@ package org.example.domain.entities;
 
 import org.example.domain.enums.TaskState;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class TaskEntity {
+public class Task {
     private UUID uuid;
-    private Date creationDate;
-    private Date dueDate;
-    private Date closeDate;
+    private LocalDateTime creationDate;
+    private LocalDateTime dueDate;
+    private LocalDateTime closeDate;
     private String description;
     private Enum<TaskState> state;
-    private TaskEntity[] subTasks;
+    private Task[] subTasks;
 
-    public TaskEntity(UUID uuid, Date creationDate, Date dueDate, Date closeDate, String description, Enum<TaskState> state, TaskEntity[] subTasks) {
+    public Task(UUID uuid, LocalDateTime creationDate, LocalDateTime dueDate, LocalDateTime closeDate, String description, Enum<TaskState> state, Task[] subTasks) {
         this.uuid = uuid;
         this.creationDate = creationDate;
         this.dueDate = dueDate;
@@ -34,27 +34,27 @@ public class TaskEntity {
         this.uuid = uuid;
     }
 
-    public Date getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 
-    public Date getDueDate() {
+    public LocalDateTime getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(Date dueDate) {
+    public void setDueDate(LocalDateTime dueDate) {
         this.dueDate = dueDate;
     }
 
-    public Date getCloseDate() {
+    public LocalDateTime getCloseDate() {
         return closeDate;
     }
 
-    public void setCloseDate(Date closeDate) {
+    public void setCloseDate(LocalDateTime closeDate) {
         this.closeDate = closeDate;
     }
 
@@ -74,11 +74,11 @@ public class TaskEntity {
         this.state = state;
     }
 
-    public TaskEntity[] getSubTasks() {
+    public Task[] getSubTasks() {
         return subTasks;
     }
 
-    public void setSubTasks(TaskEntity[] subTasks) {
+    public void setSubTasks(Task[] subTasks) {
         this.subTasks = subTasks;
     }
 

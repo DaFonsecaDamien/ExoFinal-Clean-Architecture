@@ -1,5 +1,5 @@
 package org.example.infrastructure.repositories;
-import org.example.domain.entities.TaskEntity;
+import org.example.infrastructure.entities.TaskEntity;
 
 import java.util.List;
 

@@ -1,4 +1,5 @@
 package org.example;
+import org.example.infrastructure.Parser;
 
 /**
  * Hello world!
@@ -6,8 +7,10 @@ package org.example;
  */
 public class App 
 {
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+    public static void main( String[] args ) {
+
+        Parser parser = new Parser();
+        parser.parse();
+
     }
 }
