@@ -1,6 +1,5 @@
 package org.example.infrastructure.entities;
 
-import org.example.domain.entities.Task;
 import org.example.domain.enums.TaskState;
 
 import java.time.LocalDateTime;
@@ -26,7 +25,7 @@ public class TaskEntity {
         this.subTasks = subTasks;
     }
 
-    public UUID getUuid(){
+    public UUID getUUID(){
         return uuid;
     }
 

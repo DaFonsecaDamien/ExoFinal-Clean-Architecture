@@ -60,4 +60,30 @@ public class JsonParser implements Parser{
         }
         return tasks;
     }
+
+    public JsonArray parseTasks(List<TaskEntity> tasks) {
+        JsonArray jsonArray = new JsonArray();
+        for (TaskEntity task : tasks) {
+            jsonArray.add(parseTask(task));
+        }
+        return jsonArray;
+    }
+
+    public JsonObject parseTask(TaskEntity taskEntity) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("UUID", taskEntity.getUUID().toString());
+        jsonObject.addProperty("Created", taskEntity.getCreationDate().toString());
+        jsonObject.addProperty("DueDate", taskEntity.getDueDate() == null ? null : taskEntity.getDueDate().toString());
+        jsonObject.addProperty("CloseDate", taskEntity.getCloseDate() == null ? null : taskEntity.getCloseDate().toString());
+        jsonObject.addProperty("Description", taskEntity.getDescription());
+        jsonObject.addProperty("State", taskEntity.getState().ordinal());
+        if (taskEntity.getSubTasks() != null) {
+            JsonArray jsonArray = new JsonArray();
+            for (TaskEntity subTask : taskEntity.getSubTasks()) {
+                jsonArray.add(parseTask(subTask));
+            }
+            jsonObject.add("SubTasks", jsonArray);
+        }
+        return jsonObject;
+    }
 }

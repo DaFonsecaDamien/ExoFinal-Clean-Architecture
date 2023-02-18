@@ -3,13 +3,12 @@ package org.example.infrastructure.entities;
 import org.example.domain.entities.Task;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 public class TaskMapper {
 
     public Task toDomain(TaskEntity taskEntity) {
         return new Task(
-                taskEntity.getUuid(),
+                taskEntity.getUUID(),
                 taskEntity.getCreationDate(),
                 taskEntity.getDueDate(),
                 taskEntity.getCloseDate(),
