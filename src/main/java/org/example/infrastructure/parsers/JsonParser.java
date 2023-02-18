@@ -7,6 +7,7 @@ import org.example.domain.enums.TaskState;
 import org.example.infrastructure.entities.TaskEntity;
 
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -86,4 +87,15 @@ public class JsonParser implements Parser{
         }
         return jsonObject;
     }
+
+    @Override
+    public void writeToFile(List<TaskEntity> tasks) {
+        JsonArray jsonElements = parseTasks(tasks);
+        try (FileWriter fileWriter = new FileWriter("src/main/java/org/example/users/test/consoleagenda/data.json")) {
+            fileWriter.write(jsonElements.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

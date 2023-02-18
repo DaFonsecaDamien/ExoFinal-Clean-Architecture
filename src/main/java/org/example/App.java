@@ -1,12 +1,16 @@
 package org.example;
 import com.google.gson.JsonArray;
 import org.example.domain.entities.Task;
+import org.example.domain.enums.TaskState;
 import org.example.domain.services.TaskService;
 import org.example.infrastructure.entities.TaskEntity;
+import org.example.infrastructure.entities.TaskMapper;
 import org.example.infrastructure.parsers.JsonParser;
 import org.example.infrastructure.parsers.Parser;
 import org.example.infrastructure.repositories.TaskFileRepository;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,18 +20,18 @@ import java.util.List;
 public class App 
 {
     public static void main( String[] args ) {
-
+        TaskMapper taskMapper = new TaskMapper();
         TaskService taskService = new TaskService();
-        JsonParser parser = new JsonParser();
-        TaskFileRepository taskFileRepository = new TaskFileRepository();
         List<Task> tasks = taskService.getTasks();
+        List<TaskEntity> taskEntities = new ArrayList<TaskEntity>();
+        for (Task task : tasks) {
+            TaskEntity taskEntity = taskMapper.toEntity(task);
+            taskEntities.add(taskEntity);
+        }
 
-        JsonArray jsonArray = new JsonArray();
-        List<TaskEntity> taskEntities = taskFileRepository.getAll();
-        jsonArray = parser.parseTasks(taskEntities);
+        Task task = taskService.addTask(LocalDateTime.now(), null, null, "CECI EST UN TEST", null);
 
-        System.out.println(jsonArray);
-
+        taskService.updateTaskStatus(task, TaskState.DONE);
 //        tasks = taskService.orderByCreationDate();
 //        for(Task task : tasks){
 //            System.out.println(task.toString());

@@ -15,7 +15,18 @@ public class TaskFileRepository implements TaskRepository {
     }
 
     @Override
-    public void post(TaskEntity taskEntity){
+    public void post(List<TaskEntity> taskEntity){
+        parser.writeToFile(taskEntity);
+    }
+
+    @Override
+    public void delete(List<TaskEntity> taskEntity){
+        parser.writeToFile(taskEntity);
+    }
+
+    @Override
+    public void update(List<TaskEntity> taskEntities) {
+        parser.writeToFile(taskEntities);
     }
 
 }

@@ -27,9 +27,11 @@ public class TaskService {
     }
 
     public Task addTask(LocalDateTime created, LocalDateTime dueDate, LocalDateTime closeDate, String description, Task[] subTasks) {
-        Task task = new Task(UUID.randomUUID(), created, dueDate, closeDate, description, TaskState.TODO, subTasks);
-        tasks.add(task);
-        return task;
+        Task newTask = new Task(UUID.randomUUID(), created, dueDate, closeDate, description, TaskState.TODO, subTasks);
+        tasks.add(newTask);
+        List<TaskEntity> taskEntities = toEntityList(tasks);
+        taskRepository.post(taskEntities);
+        return newTask;
     }
 
     public Task updateTask(Task task, LocalDateTime created, LocalDateTime dueDate, LocalDateTime closeDate, TaskState state, Task[] subTasks) {
@@ -43,15 +45,28 @@ public class TaskService {
 
     public Task updateTaskStatus(Task task, TaskState state) {
         task.setState(state);
+        tasks.set(tasks.indexOf(task), task);
+        List<TaskEntity> taskEntities = toEntityList(tasks);
+        taskRepository.update(taskEntities);
         return task;
     }
 
     public void deleteTask(Task task) {
         tasks.remove(task);
+        taskRepository.delete(toEntityList(tasks));
     }
 
     public List<Task> orderByCreationDate() {
         tasks.sort((o1, o2) -> o2.getCreationDate().compareTo(o1.getCreationDate()));
         return tasks;
+    }
+
+    private List<TaskEntity> toEntityList(List<Task> tasks){
+        List<TaskEntity> taskEntities = new ArrayList<>();
+        for (Task task : tasks) {
+            TaskEntity taskEntity = taskMapper.toEntity(task);
+            taskEntities.add(taskEntity);
+        }
+        return taskEntities;
     }
 }

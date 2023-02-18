@@ -7,5 +7,9 @@ public interface TaskRepository {
 
     List<TaskEntity> getAll();
 
-    void post(TaskEntity taskEntity);
+    void post(List<TaskEntity> taskEntities);
+
+    void delete(List<TaskEntity> taskEntities);
+
+    void update(List<TaskEntity> taskEntities);
 }
