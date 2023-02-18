@@ -18,4 +18,16 @@ public class TaskMapper {
                 taskEntity.getSubTasks() != null ? Arrays.stream(taskEntity.getSubTasks()).map(this::toDomain).toArray(Task[]::new) : null
         );
     }
+
+    public TaskEntity toEntity(Task task) {
+        return new TaskEntity(
+                task.getUuid(),
+                task.getCreationDate(),
+                task.getDueDate(),
+                task.getCloseDate(),
+                task.getDescription(),
+                task.getState(),
+                task.getSubTasks() != null ? Arrays.stream(task.getSubTasks()).map(this::toEntity).toArray(TaskEntity[]::new) : null
+        );
+    }
 }

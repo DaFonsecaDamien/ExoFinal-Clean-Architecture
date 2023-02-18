@@ -14,9 +14,12 @@ public class App
 
         TaskService taskService = new TaskService();
         List<Task> tasks = taskService.getTasks();
+        tasks = taskService.orderByCreationDate();
         for(Task task : tasks){
             System.out.println(task.toString());
         }
+
+
 
     }
 }

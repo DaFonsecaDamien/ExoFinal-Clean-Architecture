@@ -1,9 +1,8 @@
-package org.example.infrastructure;
+package org.example.infrastructure.parsers;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import org.example.domain.entities.Task;
 import org.example.domain.enums.TaskState;
 import org.example.infrastructure.entities.TaskEntity;
 
@@ -14,7 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class Parser {
+public class JsonParser implements Parser{
+    @Override
     public List<TaskEntity> parse() {
 
         List<TaskEntity> tasks = new ArrayList<>();

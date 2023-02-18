@@ -1,11 +1,11 @@
 package org.example.domain.services;
 
-
 import org.example.domain.entities.Task;
 import org.example.domain.enums.TaskState;
 import org.example.infrastructure.entities.TaskEntity;
 import org.example.infrastructure.entities.TaskMapper;
 import org.example.infrastructure.repositories.TaskFileRepository;
+import org.example.infrastructure.repositories.TaskRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,20 +14,20 @@ import java.util.UUID;
 
 public class TaskService {
 
-    TaskFileRepository taskFileRepository = new TaskFileRepository();
+    TaskRepository taskRepository = new TaskFileRepository();
     TaskMapper taskMapper = new TaskMapper();
     private final List<Task> tasks = new ArrayList<>();
 
     public List<Task> getTasks() {
-        List<TaskEntity> taskEntities = taskFileRepository.getAll();
+        List<TaskEntity> taskEntities = taskRepository.getAll();
         for (TaskEntity taskEntity : taskEntities) {
             tasks.add(taskMapper.toDomain(taskEntity));
         }
         return tasks;
     }
 
-    public Task addTask(UUID uuid, LocalDateTime created, LocalDateTime dueDate, LocalDateTime closeDate, String description, Task[] subTasks) {
-        Task task = new Task(uuid, created, dueDate, closeDate, description, TaskState.TODO, subTasks);
+    public Task addTask(LocalDateTime created, LocalDateTime dueDate, LocalDateTime closeDate, String description, Task[] subTasks) {
+        Task task = new Task(UUID.randomUUID(), created, dueDate, closeDate, description, TaskState.TODO, subTasks);
         tasks.add(task);
         return task;
     }

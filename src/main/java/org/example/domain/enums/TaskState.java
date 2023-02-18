@@ -16,13 +16,4 @@ public enum TaskState {
     public int getValue() {
         return value;
     }
-
-    public static String getStringFromValue(int value) {
-        for (TaskState s : TaskState.values()) {
-            if (s.getValue() == value) {
-                return s.name().toLowerCase();
-            }
-        }
-        return null;
-    }
 }
