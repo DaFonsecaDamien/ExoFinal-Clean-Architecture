@@ -3,6 +3,9 @@ package org.example.domain.services;
 
 import org.example.domain.entities.Task;
 import org.example.domain.enums.TaskState;
+import org.example.infrastructure.entities.TaskEntity;
+import org.example.infrastructure.entities.TaskMapper;
+import org.example.infrastructure.repositories.TaskFileRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -10,9 +13,16 @@ import java.util.List;
 import java.util.UUID;
 
 public class TaskService {
+
+    TaskFileRepository taskFileRepository = new TaskFileRepository();
+    TaskMapper taskMapper = new TaskMapper();
     private final List<Task> tasks = new ArrayList<>();
 
     public List<Task> getTasks() {
+        List<TaskEntity> taskEntities = taskFileRepository.getAll();
+        for (TaskEntity taskEntity : taskEntities) {
+            tasks.add(taskMapper.toDomain(taskEntity));
+        }
         return tasks;
     }
 

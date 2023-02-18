@@ -3,10 +3,8 @@ package org.example.infrastructure;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import org.example.domain.entities.Task;
 import org.example.domain.enums.TaskState;
 import org.example.infrastructure.entities.TaskEntity;
-import org.example.infrastructure.entities.TaskMapper;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -16,11 +14,9 @@ import java.util.List;
 import java.util.UUID;
 
 public class Parser {
+    public List<TaskEntity> parse() {
 
-    TaskMapper taskMapper = new TaskMapper();
-    public List<Task> parse() {
-
-        List<Task> tasks = new ArrayList<>();
+        List<TaskEntity> tasks = new ArrayList<>();
 
         try (FileReader fileReader = new FileReader("src/main/java/org/example/users/test/consoleagenda/data.json")) {
 
@@ -38,9 +34,8 @@ public class Parser {
                         TaskState.values()[jsonObject.get("State").getAsInt()],
                         null
                 );
-                tasks.add(taskMapper.toDomain(taskEntity));
+                tasks.add(taskEntity);
             }
-            System.out.println(tasks.get(0).getCreationDate());
         } catch (IOException e) {
             e.printStackTrace();
         }

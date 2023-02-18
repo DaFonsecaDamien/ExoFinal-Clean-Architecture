@@ -9,7 +9,7 @@ public enum TaskState {
 
     private int value;
 
-    private TaskState(int value) {
+    TaskState(int value) {
         this.value = value;
     }
 

@@ -84,7 +84,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return String.format("Task: %s, State: %s, Created: %s, Due: %s, Closed: %s",
+        return String.format("Task: %s,\n State: %s,\n Created: %s,\n Due: %s,\n Closed: %s\n",
                 description,
                 state,
                 creationDate.toString(),
