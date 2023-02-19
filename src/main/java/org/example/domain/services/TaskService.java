@@ -1,7 +1,7 @@
 package org.example.domain.services;
 
-import org.example.domain.entities.Task;
 import org.example.domain.enums.TaskState;
+import org.example.domain.models.Task;
 import org.example.infrastructure.entities.TaskEntity;
 import org.example.infrastructure.entities.TaskMapper;
 import org.example.infrastructure.repositories.TaskFileRepository;
@@ -11,22 +11,22 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class TaskService {
 
-    private final List<Task> tasks = new ArrayList<>();
     TaskRepository taskRepository = new TaskFileRepository();
     TaskMapper taskMapper = new TaskMapper();
+    private List<Task> tasks = new ArrayList<>();
 
     public List<Task> getTasks() {
+        tasks = new ArrayList<>();
         List<TaskEntity> taskEntities = taskRepository.getAll();
         taskEntities.forEach(taskEntity -> tasks.add(taskMapper.toDomain(taskEntity)));
         return tasks;
     }
 
     public Task getOneTaskById(UUID uuid, List<Task> tasks) {
-        if(tasks == null || tasks.size() == 0) {
+        if (tasks == null || tasks.size() == 0) {
             return null;
         }
         Task newTask = null;
@@ -63,7 +63,7 @@ public class TaskService {
     }
 
     private List<Task> addSubTaskToList(List<Task> tasks, Task newTask, UUID uuid) {
-        if(tasks == null || tasks.size() == 0) {
+        if (tasks == null || tasks.size() == 0) {
             return null;
         }
         tasks.forEach(task -> {
@@ -76,10 +76,10 @@ public class TaskService {
         return tasks;
     }
 
-    public Task updateTask(UUID uuid, Task task) {
+    public boolean updateTask(UUID uuid, Task task) {
         Task oldTask = getOneTaskById(uuid, tasks);
         if (oldTask == null) {
-            return null;
+            return false;
         }
         oldTask.setDueDate(task.getDueDate());
         String description = task.getDescription();
@@ -93,11 +93,11 @@ public class TaskService {
         List<Task> newTaskList = addUpdatedTaskToList(tasks, oldTask, uuid);
         List<TaskEntity> taskEntities = toEntityList(newTaskList);
         taskRepository.post(taskEntities);
-        return task;
+        return true;
     }
 
     private List<Task> addUpdatedTaskToList(List<Task> tasks, Task newTask, UUID uuid) {
-        if(tasks == null || tasks.size() == 0) {
+        if (tasks == null || tasks.size() == 0) {
             return null;
         }
         List<Task> newTaskList = new ArrayList<>(tasks);
@@ -120,6 +120,15 @@ public class TaskService {
     }
 
     public void deleteTask(Task task) {
+        tasks.remove(task);
+        taskRepository.delete(toEntityList(tasks));
+    }
+
+    public void deleteTask(UUID uuid) {
+        Task task = getOneTaskById(uuid, tasks);
+        if (task == null) {
+            return;
+        }
         tasks.remove(task);
         taskRepository.delete(toEntityList(tasks));
     }

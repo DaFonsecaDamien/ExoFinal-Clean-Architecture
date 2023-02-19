@@ -1,6 +1,6 @@
 package org.example.infrastructure.entities;
 
-import org.example.domain.entities.Task;
+import org.example.domain.models.Task;
 
 public class TaskMapper {
 

@@ -1,4 +1,4 @@
-package org.example.domain.entities;
+package org.example.domain.models;
 
 import org.example.domain.enums.TaskState;
 
@@ -71,7 +71,7 @@ public class Task {
     }
 
     public void setState(TaskState state) {
-        if(state == TaskState.CLOSED) {
+        if (state == TaskState.CLOSED) {
             this.closeDate = LocalDateTime.now();
         }
         this.state = state;
@@ -91,7 +91,9 @@ public class Task {
             subTasksList.add(subTask);
             this.subTasks = subTasksList;
         } else {
-            this.subTasks.add(subTask);
+            List<Task> newSubtasks = new ArrayList<>(this.subTasks);
+            newSubtasks.add(subTask);
+            this.subTasks = newSubtasks;
         }
     }
 

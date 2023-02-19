@@ -4,7 +4,6 @@ import org.example.infrastructure.entities.TaskEntity;
 import org.example.infrastructure.parsers.TaskJsonParser;
 
 import java.util.List;
-import java.util.UUID;
 
 public class TaskFileRepository implements TaskRepository {
 

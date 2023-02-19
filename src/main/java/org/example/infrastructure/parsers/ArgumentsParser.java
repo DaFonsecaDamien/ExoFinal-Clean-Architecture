@@ -2,11 +2,14 @@ package org.example.infrastructure.parsers;
 
 import org.example.domain.enums.Command;
 import org.example.domain.enums.TaskState;
-import org.example.infrastructure.Logger;
 import org.javatuples.Pair;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 public class ArgumentsParser {
     public static Pair<Command, Pair<HashMap<String, Object>, String>> parse(String[] args) {
@@ -14,6 +17,7 @@ public class ArgumentsParser {
         return switch (args[0]) {
             case "list" -> new Pair<>(Command.LIST, null);
             case "add" -> new Pair<>(Command.ADD, parseAdd(args));
+            case "addSubtask" -> new Pair<>(Command.ADD_SUBTASK, parseAddSubtask(args));
             case "update" -> new Pair<>(Command.UPDATE, parseUpdate(args));
             case "remove" -> new Pair<>(Command.REMOVE, parseRemove(args));
             default -> null;
@@ -38,7 +42,7 @@ public class ArgumentsParser {
 
     private static LocalDateTime getDueDateFromList(List<String> args) throws Exception {
         try {
-            return LocalDateTime.parse(getStringForArgTag("-d", args));
+            return LocalDateTime.of(LocalDate.parse(getStringForArgTag("-d", args)), LocalDateTime.now().toLocalTime());
         } catch (Exception e) {
             throw new Exception("Invalid date format");
         }
@@ -52,9 +56,13 @@ public class ArgumentsParser {
         }
     }
 
+    private static void validateNumberOfArgs(String[] args, int number) throws Exception {
+        if (args.length < number) throw new Exception("Invalid number of arguments");
+    }
+
     private static Pair<HashMap<String, Object>, String> parseAdd(String[] args) {
         try {
-            if (args.length < 2) throw new Exception("Invalid number of arguments");
+            validateNumberOfArgs(args, 2);
             List<String> argsList = Arrays.asList(args).subList(1, args.length);
             HashMap<String, Object> map = new HashMap<>();
 
@@ -71,9 +79,32 @@ public class ArgumentsParser {
         }
     }
 
+    private static Pair<HashMap<String, Object>, String> parseAddSubtask(String[] args) {
+        try {
+            validateNumberOfArgs(args, 3);
+            List<String> argsList = Arrays.asList(args).subList(1, args.length);
+            HashMap<String, Object> map = new HashMap<>();
+
+            UUID uuid = UUID.fromString(argsList.get(0));
+            argsList = argsList.subList(1, argsList.size());
+            map.put("uuid", uuid);
+
+            if (!(argsList.size() % 2 == 0)) throw new Exception("Invalid number of arguments");
+
+            if (!argsContainsContent(argsList)) return null;
+            map.put("content", getStringForArgTag("-c", argsList));
+
+            if (argsContainsDueDate(argsList)) map.put("dueDate", getDueDateFromList(argsList));
+
+            return new Pair<>(map, null);
+        } catch (Exception e) {
+            return new Pair<>(null, e.getMessage());
+        }
+    }
+
     private static Pair<HashMap<String, Object>, String> parseUpdate(String[] args) {
         try {
-            if (args.length < 3) throw new Exception("Invalid number of arguments");
+            validateNumberOfArgs(args, 3);
             List<String> argsList = Arrays.asList(args).subList(1, args.length);
             HashMap<String, Object> map = new HashMap<>();
 
@@ -95,7 +126,7 @@ public class ArgumentsParser {
 
     private static Pair<HashMap<String, Object>, String> parseRemove(String[] args) {
         try {
-            if (args.length < 2) throw new Exception("Invalid number of arguments");
+            validateNumberOfArgs(args, 2);
 
             HashMap<String, Object> map = new HashMap<>();
             map.put("uuid", UUID.fromString(args[1]));
