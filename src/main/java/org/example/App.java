@@ -1,13 +1,12 @@
 package org.example;
 
 import org.example.domain.entities.Task;
-import org.example.domain.enums.TaskState;
+import org.example.domain.enums.Command;
 import org.example.domain.services.TaskService;
-import org.example.infrastructure.entities.TaskEntity;
-import org.example.infrastructure.entities.TaskMapper;
+import org.example.infrastructure.parsers.ArgumentsParser;
+import org.javatuples.Pair;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -15,23 +14,31 @@ import java.util.List;
  */
 public class App {
     public static void main(String[] args) {
-        TaskMapper taskMapper = new TaskMapper();
-        TaskService taskService = new TaskService();
-        List<Task> tasks = taskService.getTasks();
-        List<TaskEntity> taskEntities = new ArrayList<>();
-        for (Task task : tasks) {
-            TaskEntity taskEntity = taskMapper.toEntity(task);
-            taskEntities.add(taskEntity);
+        Pair<Command, HashMap<String, Object>> arguments =  ArgumentsParser.parse(args);
+        if (arguments == null) return;
+        if (arguments.getValue0() == Command.LIST) {
+            TaskService taskService = new TaskService();
+            taskService.getTasks();
+            List<Task> tasks = taskService.orderedByCreationDate();
+            tasks.forEach(System.out::println);
+        } else {
+            if (arguments.getValue1() == null) {
+                arguments.getValue0().printErrorFormat();
+            }
         }
 
-        Task task = taskService.addTask(LocalDateTime.now(), null, null, "CECI EST UN TEST", null);
-
-        taskService.updateTaskStatus(task, TaskState.DONE);
-//        tasks = taskService.orderByCreationDate();
-//        for(Task task : tasks){
-//            System.out.println(task.toString());
-//        }
-
-
+//        System.out.println(arguments);
+//
+//        TaskMapper taskMapper = new TaskMapper();
+//        TaskService taskService = new TaskService();
+//        List<Task> tasks = taskService.getTasks();
+//        List<TaskEntity> taskEntities = new ArrayList<>();
+//        tasks.forEach(task -> taskEntities.add(taskMapper.toEntity(task)));
+//
+//        Task task = taskService.addTask(LocalDateTime.now(), null, null, "CECI EST UN TEST", null);
+//
+//        taskService.updateTaskStatus(task, TaskState.DONE);
+//        tasks = taskService.orderedByCreationDate();
+//        tasks.forEach(System.out::println);
     }
 }

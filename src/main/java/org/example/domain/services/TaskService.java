@@ -20,9 +20,7 @@ public class TaskService {
 
     public List<Task> getTasks() {
         List<TaskEntity> taskEntities = taskRepository.getAll();
-        for (TaskEntity taskEntity : taskEntities) {
-            tasks.add(taskMapper.toDomain(taskEntity));
-        }
+        taskEntities.forEach(taskEntity -> tasks.add(taskMapper.toDomain(taskEntity)));
         return tasks;
     }
 
@@ -56,17 +54,15 @@ public class TaskService {
         taskRepository.delete(toEntityList(tasks));
     }
 
-    public List<Task> orderByCreationDate() {
+    public List<Task> orderedByCreationDate() {
+        List<Task> tasks = getTasks();
         tasks.sort((o1, o2) -> o2.getCreationDate().compareTo(o1.getCreationDate()));
         return tasks;
     }
 
     private List<TaskEntity> toEntityList(List<Task> tasks) {
         List<TaskEntity> taskEntities = new ArrayList<>();
-        for (Task task : tasks) {
-            TaskEntity taskEntity = taskMapper.toEntity(task);
-            taskEntities.add(taskEntity);
-        }
+        tasks.forEach(task -> taskEntities.add(taskMapper.toEntity(task)));
         return taskEntities;
     }
 }

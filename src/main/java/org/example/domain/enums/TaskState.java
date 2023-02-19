@@ -7,7 +7,7 @@ public enum TaskState {
     CANCELLED(3),
     CLOSED(4);
 
-    private int value;
+    private final int value;
 
     TaskState(int value) {
         this.value = value;

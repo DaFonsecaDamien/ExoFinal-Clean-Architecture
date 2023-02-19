@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import org.example.domain.enums.TaskState;
 import org.example.infrastructure.entities.TaskEntity;
 
 import java.io.FileReader;
@@ -13,9 +12,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-public class TaskJsonParser implements Parser {
+public class TaskJsonParser implements JsonParser {
 
     public String filePath = "users/test/.consoleagenda/data.json";
 
@@ -47,27 +45,11 @@ public class TaskJsonParser implements Parser {
                 getLocalDateTimeFromJsonObject(jsonObject, "CloseDate"),
                 getStringFromJsonObject(jsonObject, "Description"),
                 getTaskStateFromJsonObject(jsonObject, "State"),
-                getSubTasksFromJsonObject(jsonObject, "SubTasks")
+                getTaskEntityListFromJsonObject(jsonObject, "SubTasks")
         );
     }
 
-    private UUID getUUIDFromJsonObject(JsonObject jsonObject, String key) {
-        return UUID.fromString(jsonObject.get(key).getAsString());
-    }
-
-    private LocalDateTime getLocalDateTimeFromJsonObject(JsonObject jsonObject, String key) {
-        return jsonObject.get(key).isJsonNull() ? null : LocalDateTime.parse(jsonObject.get(key).getAsString());
-    }
-
-    private String getStringFromJsonObject(JsonObject jsonObject, String key) {
-        return jsonObject.get(key).getAsString();
-    }
-
-    private TaskState getTaskStateFromJsonObject(JsonObject jsonObject, String key) {
-        return TaskState.values()[jsonObject.get(key).getAsInt()];
-    }
-
-    private List<TaskEntity> getSubTasksFromJsonObject(JsonObject jsonObject, String key) {
+    private List<TaskEntity> getTaskEntityListFromJsonObject(JsonObject jsonObject, String key) {
         return jsonObject.get(key).isJsonNull() ? null : jsonArrayToTaskEntityList(jsonObject.get(key).getAsJsonArray());
     }
 
