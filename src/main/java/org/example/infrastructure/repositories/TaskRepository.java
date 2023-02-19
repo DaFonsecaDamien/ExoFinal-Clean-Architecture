@@ -9,8 +9,6 @@ public interface TaskRepository {
 
     List<TaskEntity> getAll();
 
-    TaskEntity getOne(UUID uuid);
-
     void post(List<TaskEntity> taskEntities);
 
     void delete(List<TaskEntity> taskEntities);

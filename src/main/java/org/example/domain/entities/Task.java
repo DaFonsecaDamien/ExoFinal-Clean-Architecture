@@ -13,10 +13,10 @@ public class Task {
     private LocalDateTime dueDate;
     private LocalDateTime closeDate;
     private String description;
-    private Enum<TaskState> state;
+    private TaskState state;
     private List<Task> subTasks;
 
-    public Task(UUID uuid, LocalDateTime creationDate, LocalDateTime dueDate, LocalDateTime closeDate, String description, Enum<TaskState> state, List<Task> subTasks) {
+    public Task(UUID uuid, LocalDateTime creationDate, LocalDateTime dueDate, LocalDateTime closeDate, String description, TaskState state, List<Task> subTasks) {
         this.uuid = uuid;
         this.creationDate = creationDate;
         this.dueDate = dueDate;
@@ -66,11 +66,14 @@ public class Task {
         this.description = description;
     }
 
-    public Enum<TaskState> getState() {
+    public TaskState getState() {
         return state;
     }
 
-    public void setState(Enum<TaskState> state) {
+    public void setState(TaskState state) {
+        if(state == TaskState.CLOSED) {
+            this.closeDate = LocalDateTime.now();
+        }
         this.state = state;
     }
 

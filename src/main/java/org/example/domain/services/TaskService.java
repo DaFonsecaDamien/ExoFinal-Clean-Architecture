@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class TaskService {
 
@@ -24,8 +25,25 @@ public class TaskService {
         return tasks;
     }
 
-    public Task getTask(UUID uuid) {
-        return taskMapper.toDomain(taskRepository.getOne(uuid));
+    public Task getOneTaskById(UUID uuid, List<Task> tasks) {
+        if(tasks == null || tasks.size() == 0) {
+            return null;
+        }
+        Task newTask = null;
+        for (Task task : tasks) {
+            if (task.getUuid().equals(uuid)) {
+                newTask = task;
+                break;
+            }
+            if (task.getSubTasks() != null && task.getSubTasks().size() > 0) {
+                Task recursiveTask = getOneTaskById(uuid, task.getSubTasks());
+                if (recursiveTask != null) {
+                    newTask = recursiveTask;
+                    break;
+                }
+            }
+        }
+        return newTask;
     }
 
     public Task addTask(LocalDateTime created, LocalDateTime dueDate, LocalDateTime closeDate, String description, List<Task> subTasks) {
@@ -58,13 +76,39 @@ public class TaskService {
         return tasks;
     }
 
-    public Task updateTask(Task task, LocalDateTime created, LocalDateTime dueDate, LocalDateTime closeDate, TaskState state, List<Task> subTasks) {
-        task.setCreationDate(created);
-        task.setDueDate(dueDate);
-        task.setCloseDate(closeDate);
-        task.setState(state);
-        task.setSubTasks(subTasks);
+    public Task updateTask(UUID uuid, Task task) {
+        Task oldTask = getOneTaskById(uuid, tasks);
+        if (oldTask == null) {
+            return null;
+        }
+        oldTask.setDueDate(task.getDueDate());
+        String description = task.getDescription();
+        if (description != null && !description.isEmpty()) {
+            oldTask.setDescription(description);
+        }
+        TaskState state = task.getState();
+        if (state != null) {
+            oldTask.setState(state);
+        }
+        List<Task> newTaskList = addUpdatedTaskToList(tasks, oldTask, uuid);
+        List<TaskEntity> taskEntities = toEntityList(newTaskList);
+        taskRepository.post(taskEntities);
         return task;
+    }
+
+    private List<Task> addUpdatedTaskToList(List<Task> tasks, Task newTask, UUID uuid) {
+        if(tasks == null || tasks.size() == 0) {
+            return null;
+        }
+        List<Task> newTaskList = new ArrayList<>(tasks);
+        for (int i = 0; i < newTaskList.size(); i++) {
+            if (newTaskList.get(i).getUuid().equals(uuid)) {
+                newTaskList.set(i, newTask);
+            } else {
+                addUpdatedTaskToList(newTaskList.get(i).getSubTasks(), newTask, uuid);
+            }
+        }
+        return newTaskList;
     }
 
     public Task updateTaskStatus(Task task, TaskState state) {
