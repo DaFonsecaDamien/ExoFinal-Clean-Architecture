@@ -12,10 +12,10 @@ public class TaskEntity {
     private final LocalDateTime dueDate;
     private final LocalDateTime closeDate;
     private final String description;
-    private final Enum<TaskState> state;
+    private final TaskState state;
     private final List<TaskEntity> subTasks;
 
-    public TaskEntity(UUID uuid, LocalDateTime creationDate, LocalDateTime dueDate, LocalDateTime closeDate, String description, Enum<TaskState> state, List<TaskEntity> subTasks) {
+    public TaskEntity(UUID uuid, LocalDateTime creationDate, LocalDateTime dueDate, LocalDateTime closeDate, String description, TaskState state, List<TaskEntity> subTasks) {
         this.uuid = uuid;
         this.creationDate = creationDate;
         this.dueDate = dueDate;
@@ -45,7 +45,7 @@ public class TaskEntity {
         return description;
     }
 
-    public Enum<TaskState> getState() {
+    public TaskState getState() {
         return state;
     }
 

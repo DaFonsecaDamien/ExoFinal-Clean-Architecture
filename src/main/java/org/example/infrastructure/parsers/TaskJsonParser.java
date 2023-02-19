@@ -32,12 +32,6 @@ public class TaskJsonParser implements JsonParser {
         }
     }
 
-    public TaskEntity getOneTaskById(UUID id) {
-        List<TaskEntity> taskEntityList = taskEntityListFromFile();
-        List<TaskEntity> subTaskList = mapSubTasks(taskEntityList);
-        return subTaskList.stream().filter(taskEntity -> taskEntity.getUUID().equals(id)).findFirst().orElse(null);
-    }
-
     private List<TaskEntity> mapSubTasks(List<TaskEntity> taskEntityList) {
         List<TaskEntity> subTaskEntityList = new ArrayList<>();
         taskEntityList.stream().filter(taskEntity -> taskEntity.getSubTasks() == null)
