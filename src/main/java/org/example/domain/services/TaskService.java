@@ -57,7 +57,7 @@ public class TaskService {
         });
         return tasks;
     }
-
+    
     public Task updateTask(Task task, LocalDateTime created, LocalDateTime dueDate, LocalDateTime closeDate, TaskState state, List<Task> subTasks) {
         task.setCreationDate(created);
         task.setDueDate(dueDate);
