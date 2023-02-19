@@ -1,11 +1,9 @@
 package org.example.domain.entities;
 
-
-
 import org.example.domain.enums.TaskState;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 public class Task {
@@ -15,9 +13,9 @@ public class Task {
     private LocalDateTime closeDate;
     private String description;
     private Enum<TaskState> state;
-    private Task[] subTasks;
+    private List<Task> subTasks;
 
-    public Task(UUID uuid, LocalDateTime creationDate, LocalDateTime dueDate, LocalDateTime closeDate, String description, Enum<TaskState> state, Task[] subTasks) {
+    public Task(UUID uuid, LocalDateTime creationDate, LocalDateTime dueDate, LocalDateTime closeDate, String description, Enum<TaskState> state, List<Task> subTasks) {
         this.uuid = uuid;
         this.creationDate = creationDate;
         this.dueDate = dueDate;
@@ -27,11 +25,11 @@ public class Task {
         this.subTasks = subTasks;
     }
 
-    public UUID getUuid(){
+    public UUID getUuid() {
         return uuid;
     }
 
-    public void setUuid(){
+    public void setUuid(UUID uuid) {
         this.uuid = uuid;
     }
 
@@ -75,24 +73,24 @@ public class Task {
         this.state = state;
     }
 
-    public Task[] getSubTasks() {
+    public List<Task> getSubTasks() {
         return subTasks;
     }
 
-    public void setSubTasks(Task[] subTasks) {
+    public void setSubTasks(List<Task> subTasks) {
         this.subTasks = subTasks;
     }
 
     @Override
     public String toString() {
         return "Task{" +
-                "uuid=" + uuid + "\n"+
-                "creationDate=" + creationDate +"\n"+
-                "dueDate=" + dueDate +"\n"+
-                "closeDate=" + closeDate +"\n"+
-                "description='" + description + '\'' +"\n"+
-                "state=" + state +"\n"+
-                "subTasks=" + Arrays.toString(subTasks) +"\n"+
+                "uuid=" + uuid + "\n" +
+                "creationDate=" + creationDate + "\n" +
+                "dueDate=" + dueDate + "\n" +
+                "closeDate=" + closeDate + "\n" +
+                "description='" + description + '\'' + "\n" +
+                "state=" + state + "\n" +
+                "subTasks=" + subTasks + "\n" +
                 '}';
     }
 }

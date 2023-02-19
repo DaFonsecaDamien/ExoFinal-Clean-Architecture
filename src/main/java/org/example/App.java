@@ -1,13 +1,10 @@
 package org.example;
-import com.google.gson.JsonArray;
+
 import org.example.domain.entities.Task;
 import org.example.domain.enums.TaskState;
 import org.example.domain.services.TaskService;
 import org.example.infrastructure.entities.TaskEntity;
 import org.example.infrastructure.entities.TaskMapper;
-import org.example.infrastructure.parsers.JsonParser;
-import org.example.infrastructure.parsers.Parser;
-import org.example.infrastructure.repositories.TaskFileRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,15 +12,13 @@ import java.util.List;
 
 /**
  * Hello world!
- *
  */
-public class App 
-{
-    public static void main( String[] args ) {
+public class App {
+    public static void main(String[] args) {
         TaskMapper taskMapper = new TaskMapper();
         TaskService taskService = new TaskService();
         List<Task> tasks = taskService.getTasks();
-        List<TaskEntity> taskEntities = new ArrayList<TaskEntity>();
+        List<TaskEntity> taskEntities = new ArrayList<>();
         for (Task task : tasks) {
             TaskEntity taskEntity = taskMapper.toEntity(task);
             taskEntities.add(taskEntity);

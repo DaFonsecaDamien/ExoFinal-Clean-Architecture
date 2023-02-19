@@ -4,42 +4,40 @@
 
 Our objective is to build a task manager accessible from the command line.
 
-
 ## A task
 
-A task is a description of an activity to be done.
-This task have these additional properties:
+A task is a description of an activity to be done. This task have these additional properties:
+
 - creation date
 - due date (optional)
 - close date (when status changed to close)
-- state (predefined values: `[todo, pending, progress, done, cancelled, closed]`), _`todo` will be the 
-default when a new task is created_
+- state (predefined values: `[todo, pending, progress, done, cancelled, closed]`), _`todo` will be the default when a
+  new task is created_
 - Subtasks (optional): an array of tasks
 
 ## Data
 
-The persistence of the data of the tasks should be accessible and readable within simple text 
-files: csv, json or even text files. It could be one file per task or one file for all tasks.
+The persistence of the data of the tasks should be accessible and readable within simple text files: csv, json or even
+text files. It could be one file per task or one file for all tasks.
 
-The persistence of the data should be done in a folder called ".consoleAgenda" under the profile 
-of the user. 
-For example : `/users/rui/.consoleagenda/data.json`
+The persistence of the data should be done in a folder called ".consoleAgenda" under the profile of the user. For
+example : `/users/rui/.consoleagenda/data.json`
 
 ## UI
 
 The application should be a simple command line application able to interact with the data.
 
- - list the tasks by creation date (first is more recent)
- - add a new task
- - remove a task
- - update task status
- - (optional) show tasks in different colors depending on their status
+- list the tasks by creation date (first is more recent)
+- add a new task
+- remove a task
+- update task status
+- (optional) show tasks in different colors depending on their status
 
-Each command need to unitary and self standing. A command do an action producing a result, 
-then show the result and then quit the app (there is no interactive interface hiding some 
-commands within the process of execution of the app)
+Each command need to unitary and self standing. A command do an action producing a result, then show the result and then
+quit the app (there is no interactive interface hiding some commands within the process of execution of the app)
 
 example of executions :
+
 - `agenda add -c "hello world"`
 - `agenda add -d:2022-03-01 -c "finalize the agenda exercise"`
 - `agenda list`
@@ -49,34 +47,29 @@ example of executions :
 
 _note: in our examples, command options `-c` means content, `-d` due date, `-s` status_
 
-
-
-
 ## Additional Rules
 
-These are features of the app that are less important for a basic working app but we would 
-like to have them later
+These are features of the app that are less important for a basic working app but we would like to have them later
 
-- (optional) each execution of the app is logged in a file `log.txt` stored in the application 
-folder `~/.consoleagenda/` with :
-  - this format: `[status][yyyy-MM-dd:HHhmm,ss] command_arguments : optional_error`
-  - where status: `[ok+] | [err]`
-  - ex: `[err][2022-02-10:10h55,23] update 1 "hello world" : task #1 does not exist`
-  - ex: `[ok+][2022-02-10:10h56,00] add "hello world"`
-- (optional) overdue tasks (= tasks with due date in the past) should be presented in red, 
-first before the other tasks
+- (optional) each execution of the app is logged in a file `log.txt` stored in the application
+  folder `~/.consoleagenda/` with :
+    - this format: `[status][yyyy-MM-dd:HHhmm,ss] command_arguments : optional_error`
+    - where status: `[ok+] | [err]`
+    - ex: `[err][2022-02-10:10h55,23] update 1 "hello world" : task #1 does not exist`
+    - ex: `[ok+][2022-02-10:10h56,00] add "hello world"`
+- (optional) overdue tasks (= tasks with due date in the past) should be presented in red, first before the other tasks
 
 ## Building on quality
 
-Even if it's look like a simple app, we want to ensure that it works as expected and that it will 
-be maintainable over time:
+Even if it's look like a simple app, we want to ensure that it works as expected and that it will be maintainable over
+time:
+
 - there must be tests proving that the application is working as expected
-- the design must be modular enough, respecting principles of composition of software to ensure 
-separation of concerns, minimal coupling & maximal cohesion, stability of core parts and modularity
-of concrete parts (data, interfaces, file system, log ...)
+- the design must be modular enough, respecting principles of composition of software to ensure separation of concerns,
+  minimal coupling & maximal cohesion, stability of core parts and modularity of concrete parts (data, interfaces, file
+  system, log ...)
 
-
-## Sample Data 
+## Sample Data
 
 this json could be used as reference for your initial tests:
 

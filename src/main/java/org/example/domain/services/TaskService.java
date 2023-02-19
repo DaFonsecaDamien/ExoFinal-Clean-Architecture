@@ -14,9 +14,9 @@ import java.util.UUID;
 
 public class TaskService {
 
+    private final List<Task> tasks = new ArrayList<>();
     TaskRepository taskRepository = new TaskFileRepository();
     TaskMapper taskMapper = new TaskMapper();
-    private final List<Task> tasks = new ArrayList<>();
 
     public List<Task> getTasks() {
         List<TaskEntity> taskEntities = taskRepository.getAll();
@@ -26,7 +26,7 @@ public class TaskService {
         return tasks;
     }
 
-    public Task addTask(LocalDateTime created, LocalDateTime dueDate, LocalDateTime closeDate, String description, Task[] subTasks) {
+    public Task addTask(LocalDateTime created, LocalDateTime dueDate, LocalDateTime closeDate, String description, List<Task> subTasks) {
         Task newTask = new Task(UUID.randomUUID(), created, dueDate, closeDate, description, TaskState.TODO, subTasks);
         tasks.add(newTask);
         List<TaskEntity> taskEntities = toEntityList(tasks);
@@ -34,7 +34,7 @@ public class TaskService {
         return newTask;
     }
 
-    public Task updateTask(Task task, LocalDateTime created, LocalDateTime dueDate, LocalDateTime closeDate, TaskState state, Task[] subTasks) {
+    public Task updateTask(Task task, LocalDateTime created, LocalDateTime dueDate, LocalDateTime closeDate, TaskState state, List<Task> subTasks) {
         task.setCreationDate(created);
         task.setDueDate(dueDate);
         task.setCloseDate(closeDate);
@@ -61,7 +61,7 @@ public class TaskService {
         return tasks;
     }
 
-    private List<TaskEntity> toEntityList(List<Task> tasks){
+    private List<TaskEntity> toEntityList(List<Task> tasks) {
         List<TaskEntity> taskEntities = new ArrayList<>();
         for (Task task : tasks) {
             TaskEntity taskEntity = taskMapper.toEntity(task);

@@ -2,8 +2,6 @@ package org.example.infrastructure.entities;
 
 import org.example.domain.entities.Task;
 
-import java.util.Arrays;
-
 public class TaskMapper {
 
     public Task toDomain(TaskEntity taskEntity) {
@@ -14,7 +12,7 @@ public class TaskMapper {
                 taskEntity.getCloseDate(),
                 taskEntity.getDescription(),
                 taskEntity.getState(),
-                taskEntity.getSubTasks() != null ? Arrays.stream(taskEntity.getSubTasks()).map(this::toDomain).toArray(Task[]::new) : null
+                taskEntity.getSubTasks() != null ? taskEntity.getSubTasks().stream().map(this::toDomain).toList() : null
         );
     }
 
@@ -26,7 +24,7 @@ public class TaskMapper {
                 task.getCloseDate(),
                 task.getDescription(),
                 task.getState(),
-                task.getSubTasks() != null ? Arrays.stream(task.getSubTasks()).map(this::toEntity).toArray(TaskEntity[]::new) : null
+                task.getSubTasks() != null ? task.getSubTasks().stream().map(this::toEntity).toList() : null
         );
     }
 }

@@ -1,13 +1,14 @@
 package org.example.infrastructure.repositories;
-import org.example.infrastructure.parsers.JsonParser;
+
 import org.example.infrastructure.entities.TaskEntity;
 import org.example.infrastructure.parsers.Parser;
+import org.example.infrastructure.parsers.TaskJsonParser;
 
 import java.util.List;
 
 public class TaskFileRepository implements TaskRepository {
 
-    Parser parser = new JsonParser();
+    Parser parser = new TaskJsonParser();
 
     @Override
     public List<TaskEntity> getAll() {
@@ -15,18 +16,18 @@ public class TaskFileRepository implements TaskRepository {
     }
 
     @Override
-    public void post(List<TaskEntity> taskEntity){
-        parser.writeToFile(taskEntity);
+    public void post(List<TaskEntity> taskEntity) {
+        parser.writeTaskEntitiesToFile(taskEntity);
     }
 
     @Override
-    public void delete(List<TaskEntity> taskEntity){
-        parser.writeToFile(taskEntity);
+    public void delete(List<TaskEntity> taskEntity) {
+        parser.writeTaskEntitiesToFile(taskEntity);
     }
 
     @Override
     public void update(List<TaskEntity> taskEntities) {
-        parser.writeToFile(taskEntities);
+        parser.writeTaskEntitiesToFile(taskEntities);
     }
 
 }

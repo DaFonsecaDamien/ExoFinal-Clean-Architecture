@@ -8,5 +8,5 @@ public interface Parser {
 
     <T> T parse();
 
-    void writeToFile(List<TaskEntity> tasks);
+    void writeTaskEntitiesToFile(List<TaskEntity> tasks);
 }
