@@ -3,6 +3,7 @@ package org.example.domain.entities;
 import org.example.domain.enums.TaskState;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -79,6 +80,16 @@ public class Task {
 
     public void setSubTasks(List<Task> subTasks) {
         this.subTasks = subTasks;
+    }
+
+    public void addSubTask(Task subTask) {
+        if (this.subTasks == null) {
+            List<Task> subTasksList = new ArrayList<>();
+            subTasksList.add(subTask);
+            this.subTasks = subTasksList;
+        } else {
+            this.subTasks.add(subTask);
+        }
     }
 
     @Override

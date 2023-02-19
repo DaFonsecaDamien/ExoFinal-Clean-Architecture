@@ -5,15 +5,22 @@ import org.example.infrastructure.parsers.Parser;
 import org.example.infrastructure.parsers.TaskJsonParser;
 
 import java.util.List;
+import java.util.UUID;
 
 public class TaskFileRepository implements TaskRepository {
 
-    Parser parser = new TaskJsonParser();
+    TaskJsonParser parser = new TaskJsonParser();
 
     @Override
     public List<TaskEntity> getAll() {
         return parser.parse();
     }
+
+    @Override
+    public TaskEntity getOne(UUID uuid) {
+        return parser.getOneTaskById(uuid);
+    }
+
 
     @Override
     public void post(List<TaskEntity> taskEntity) {

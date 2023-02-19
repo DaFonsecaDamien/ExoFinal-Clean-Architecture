@@ -24,12 +24,38 @@ public class TaskService {
         return tasks;
     }
 
+    public Task getTask(UUID uuid) {
+        return taskMapper.toDomain(taskRepository.getOne(uuid));
+    }
+
     public Task addTask(LocalDateTime created, LocalDateTime dueDate, LocalDateTime closeDate, String description, List<Task> subTasks) {
         Task newTask = new Task(UUID.randomUUID(), created, dueDate, closeDate, description, TaskState.TODO, subTasks);
         tasks.add(newTask);
         List<TaskEntity> taskEntities = toEntityList(tasks);
         taskRepository.post(taskEntities);
         return newTask;
+    }
+
+    public Task addSubTask(UUID uuid, LocalDateTime created, LocalDateTime dueDate, LocalDateTime closeDate, String description, List<Task> subTasks) {
+        Task newTask = new Task(UUID.randomUUID(), created, dueDate, closeDate, description, TaskState.TODO, subTasks);
+        List<Task> newTaskList = addSubTaskToList(tasks, newTask, uuid);
+        List<TaskEntity> taskEntities = toEntityList(newTaskList);
+        taskRepository.post(taskEntities);
+        return newTask;
+    }
+
+    private List<Task> addSubTaskToList(List<Task> tasks, Task newTask, UUID uuid) {
+        if(tasks == null || tasks.size() == 0) {
+            return null;
+        }
+        tasks.forEach(task -> {
+            if (task.getUuid().equals(uuid)) {
+                task.addSubTask(newTask);
+            } else {
+                task.setSubTasks(addSubTaskToList(task.getSubTasks(), newTask, uuid));
+            }
+        });
+        return tasks;
     }
 
     public Task updateTask(Task task, LocalDateTime created, LocalDateTime dueDate, LocalDateTime closeDate, TaskState state, List<Task> subTasks) {

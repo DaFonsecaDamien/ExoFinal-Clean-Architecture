@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class TaskJsonParser implements JsonParser {
 
@@ -29,6 +30,22 @@ public class TaskJsonParser implements JsonParser {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public TaskEntity getOneTaskById(UUID id) {
+        List<TaskEntity> taskEntityList = taskEntityListFromFile();
+        List<TaskEntity> subTaskList = mapSubTasks(taskEntityList);
+        return subTaskList.stream().filter(taskEntity -> taskEntity.getUUID().equals(id)).findFirst().orElse(null);
+    }
+
+    private List<TaskEntity> mapSubTasks(List<TaskEntity> taskEntityList) {
+        List<TaskEntity> subTaskEntityList = new ArrayList<>();
+        taskEntityList.stream().filter(taskEntity -> taskEntity.getSubTasks() == null)
+                .forEach(taskEntity -> subTaskEntityList.add(taskEntity));
+
+        taskEntityList.stream().filter(taskEntity -> taskEntity.getSubTasks() != null)
+                .forEach(taskEntity -> subTaskEntityList.addAll(mapSubTasks(taskEntity.getSubTasks())));
+        return subTaskEntityList;
     }
 
     private List<TaskEntity> jsonArrayToTaskEntityList(JsonArray jsonArray) {
